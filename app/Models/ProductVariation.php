@@ -23,5 +23,22 @@ class ProductVariation extends Model
     public function getPercentOffAttribute(){
         return $this->is_sale? round((($this->price - $this->sale_price)/$this->price)*100):null;
     }
+    public function scopeSort($query){
+        if (request()->has('sortBy')) {
+            switch (request('sortBy')) {
+                case 'min':
+                    return $query->orderBy('price');
+                    break;
+                case 'max':
+                    return $query->orderBy('price','desc');
+                    break;
+
+                default:
+                return $query->orderBy('price');
+                    break;
+            }
+        }
+        return  $query->orderBy('price');
+    }
 
 }
