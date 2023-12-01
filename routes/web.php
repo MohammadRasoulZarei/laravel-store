@@ -152,8 +152,8 @@ Route::get('/check-out', [CartController::class, 'checkout'])->name('home.order.
 //=========== - cart and coupon-user-side part===========
 //=========== + payment part===========
 
-Route::post('/payment', [PaymentController::class, 'payment'])->name('home.payment');
-Route::get('/payment/verify/{gate}', [PaymentController::class, 'verify'])->name('home.payment.verify');
+Route::post('/payment', [PaymentController::class, 'payment'])->middleware(['auth', 'verified'])->name('home.payment');
+Route::get('/payment/verify/{gate}', [PaymentController::class, 'verify'])->middleware(['auth', 'verified'])->name('home.payment.verify');
 
 //=========== - payment part===========
 //=========== other + ===========
@@ -170,13 +170,14 @@ Route::get('/sitemap', [HomeController::class, 'sitemap']);
 
 Route::any('/test', function () {
 
+    auth()->logout();
  //  $user = User::find(1);
    //auth()->login($user);
    // dd(auth()->user());
-    $date=Carbon::now();
+ //   $date=Carbon::now();
     //  $time=verta($date)->format('H:i');
     // $date=verta($date)->format('y-n-j');
-  auth()->user()->notify(new PaymentSms('700000','ijifj',$date));
+  //auth()->user()->notify(new PaymentSms('700000','ijifj',$date));
   //  auth()->user()->notify(new OtpSms('50000'));
    // dd(Verta::parse(verta()->subMonth(12)->startMonth())->datetime());
     //dd($date,$date2);

@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $products=product::latest()->paginate();
+        $products=product::filter()->paginate(5);
         $categories=Category::where('parent_id',0)->get();
         return view('home.categories.index',compact('products','categories'));
     }
@@ -26,7 +26,7 @@ class CategoryController extends Controller
 
 
 
-        $products = $category->products()->filter()->paginate(6);
+        $products = $category->products()->filter()->paginate(2);
 
         // dd( $product->real_price->get()->sortByDesc('price'));
         return view('home.categories.show', compact('category', 'filters', 'variation', 'products'));
