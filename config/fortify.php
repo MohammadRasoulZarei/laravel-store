@@ -1,7 +1,11 @@
 <?php
 
-use App\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
+use App\Providers\RouteServiceProvider;
+
+use App\Http\Controllers\AuthController;
+use Illuminate\Contracts\Session\Session;
+
 
 return [
 
@@ -61,7 +65,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    'home' =>RouteServiceProvider::HOME,
 
     /*
     |--------------------------------------------------------------------------
