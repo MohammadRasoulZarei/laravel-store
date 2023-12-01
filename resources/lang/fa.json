@@ -1,4 +1,6 @@
 {
+
+    "The :attribute must be at least :length characters.": "فیلد :attribute حداقل باید 8 کاراکتر باشد",
     "Verify Email Address":"تایید آادرس ایمیل",
     "Please click the button below to verify your email address.":"لطفا دکمه زیر را جهت تایید ایمیل خود وارد کنید",
     "If you did not create an account, no further action is required.":"اگر شما در سایت فوشگاه اکانت درست نکرده اید این پیام را فراموش کنیئ.",
