@@ -11,6 +11,8 @@ use App\Models\ProductVariation;
 use App\Notifications\PaymentSms;
 use Ghasedak\Laravel\GhasedakFacade;
 use Illuminate\Support\Facades\Route;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Home\CartController;
@@ -44,6 +46,17 @@ use App\Http\Controllers\Home\CommentsController as homeCommentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::any('/test', function () {
+
+    auth()->logout();
+  dd( Session()->all());
+     // $auth= new AuthController();
+     // dd($auth->loginLand());
+   // dd(RouteServiceProvider::loginLand());
+   // dd(loginLand());
+
+ });
+
 //===========dashboard and admin panel + =================
 Route::get('/admin-panel/dashboard', [AdminController::class, 'dashboard'])->name('dashboard')->middleware(['auth', 'verified']);
 Route::get('/admin', function () {
@@ -147,7 +160,7 @@ Route::get('/cart-clear', function () {
     return redirect()->route('home.index');
 });
 Route::post('/cart-check-coupon', [CartController::class, 'checkCoupon'])->name('home.cart.checkCoupon');
-Route::get('/check-out', [CartController::class, 'checkout'])->name('home.order.checkout');
+Route::get('/check-out', [CartController::class, 'checkout'])->middleware('auth')->name('home.order.checkout');
 
 //=========== - cart and coupon-user-side part===========
 //=========== + payment part===========
@@ -168,19 +181,3 @@ Route::get('/sitemap', [HomeController::class, 'sitemap']);
 //================================================================
 //================================================================
 
-Route::any('/test', function () {
-
-    auth()->logout();
- //  $user = User::find(1);
-   //auth()->login($user);
-   // dd(auth()->user());
- //   $date=Carbon::now();
-    //  $time=verta($date)->format('H:i');
-    // $date=verta($date)->format('y-n-j');
-  //auth()->user()->notify(new PaymentSms('700000','ijifj',$date));
-  //  auth()->user()->notify(new OtpSms('50000'));
-   // dd(Verta::parse(verta()->subMonth(12)->startMonth())->datetime());
-    //dd($date,$date2);
-
-
-});

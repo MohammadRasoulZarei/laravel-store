@@ -54,7 +54,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                            <div class="input"> <input value="12345678" type="password" name="password"
+                                            <div class="input"> <input type="password" name="password"
                                                     placeholder="رمز عبور">
                                                 @error('password')
                                                     <div class="input-error-validation">
@@ -62,7 +62,7 @@
                                                     </div>
                                                 @enderror
                                             </div>
-                                            <div class="input"> <input value="12345678" type="password" name="password_confirmation"
+                                            <div class="input"> <input  type="password" name="password_confirmation"
                                                     placeholder="تکرار رمز عبور">
                                                 @error('password_confirmation')
                                                     <div class="input-error-validation">

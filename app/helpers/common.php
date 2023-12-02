@@ -4,7 +4,7 @@
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Models\Coupon;
-
+use App\Providers\RouteServiceProvider;
 
 $e = 0;
 function ed($var, $colorClass = '', $title = "")
@@ -145,4 +145,12 @@ function CartFinalTotal()
          (cartTotalDelivery() + \Cart::getTotal()) - session('coupon.discount') : 0;
     }
     return cartTotalDelivery() + \Cart::getTotal();
+}
+function loginLand(){
+    if(Session()->has('loginLand')){
+        $path=Session('loginLand');
+        session()->forget('loginLand');
+        return $path;
+    }
+    return RouteServiceProvider::HOME;
 }

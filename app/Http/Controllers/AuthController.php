@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Notifications\OtpSms;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -49,7 +50,9 @@ class AuthController extends Controller
         }
         auth()->login($user, $remember = true);
         alert()->success("لاگین با موفقیت انجام شد.", 'باتشکر')->showConfirmButton('باشه');
-        return redirect()->route('home.index');
+
+        $path=loginLand();
+        return redirect($path);
     }
 
     #the other way of authentication

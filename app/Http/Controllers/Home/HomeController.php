@@ -17,9 +17,7 @@ use TimeHunter\LaravelGoogleReCaptchaV3\Validations\GoogleReCaptchaV3ValidationR
 
 class HomeController extends Controller
 {
-    public function sitemap()
-    {
-    }
+
     public function contactUs(Request $req)
     {
         if (isset($_POST['email'])) {
@@ -56,6 +54,11 @@ class HomeController extends Controller
 
     public function index()
     {
+        if (session()->has('loginLand')) {
+            $path=session('loginLand');
+            session()->forget('loginLand');
+           return redirect($path);
+        }
         SEOTools::setTitle('journab');
         SEOTools::setDescription('This is my home page');
         SEOTools::setCanonical('https://codecasts.com.br/lesson');
