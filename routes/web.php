@@ -169,8 +169,8 @@ Route::get('/sitemap', [HomeController::class, 'sitemap']);
 //================================================================
 
 Route::any('/test', function () {
-
-    auth()->logout();
+    
+    //auth()->logout();
  //  $user = User::find(1);
    //auth()->login($user);
    // dd(auth()->user());

@@ -220,7 +220,7 @@ class ProductController extends Controller
     public function editCategory(Request $request, Product $product)
     {
         $categories = Category::where('parent_id', '!=', 0)->get();
-        
+
         return view('admin.products.edit_category', compact('product' , 'categories'));
     }
 
