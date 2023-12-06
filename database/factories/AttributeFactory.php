@@ -2,16 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Models\Brand;
+
+use App\Models\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Brand>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attribute>
  */
-class BrandFactory extends Factory
+class AttributeFactory extends Factory
 {
-    protected $model=Brand::class;
+    protected $model=Attribute::class;
     /**
      * Define the model's default state.
      *
@@ -20,9 +20,7 @@ class BrandFactory extends Factory
     public function definition(): array
     {
         return [
-
-            'name'=>$this->faker->title,
-
+            'name'=>$this->faker->name
         ];
     }
 }

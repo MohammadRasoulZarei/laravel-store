@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Product;
 use App\Notifications\Test;
@@ -169,7 +170,7 @@ Route::get('/sitemap', [HomeController::class, 'sitemap']);
 //================================================================
 
 Route::any('/test', function () {
-    
+        dd(Brand::inRandomOrder()->first());
     //auth()->logout();
  //  $user = User::find(1);
    //auth()->login($user);

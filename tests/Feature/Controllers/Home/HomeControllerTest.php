@@ -13,11 +13,12 @@ class HomeControllerTest extends TestCase
      */
     public function testIndex(): void
     {
+       // $this->withoutExceptionHandling();
         $response = $this->get('/');
        // $response = $this->get(route('home.index'));
 
-        $response->assertStatus(200);
-    //  $response->assertOk();
+      //  $response->assertStatus(200);
+      $response->assertOk();
         $response->assertViewIs('home.index');
         $response->assertViewHasAll(['sliders','banners']);
     }

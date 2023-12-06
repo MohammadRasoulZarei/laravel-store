@@ -13,7 +13,7 @@ class BannerTest extends TestCase
     /**
      * A basic feature test example.
      */
-    use RefreshDatabase;
+
     public function testInsertData(): void
     {
         $banner=Banner::factory()->create();

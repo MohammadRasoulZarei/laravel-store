@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,6 +14,7 @@ class ProductControllerTest extends TestCase
     /**
      * A basic feature test example.
      */
+
     public function testIndex(): void
     {
     //  $this->withoutExceptionHandling();
@@ -33,13 +35,25 @@ class ProductControllerTest extends TestCase
     }
     public function testShow(): void
     {
-    //  $this->withoutExceptionHandling();
-        $product=Product::all();
-        dd($product);
+      $this->withoutExceptionHandling();
+        $product=Product::factory()->create();
+        Brand::factory()->count(5)->create();
+
         $response = $this->actingAs(User::factory()->create())
-        ->get(route('admin.products.show',['Product'=>$product->id]));
+        ->get(route('admin.products.show',['product'=>$product->id]));
 
         $response->assertOk();
     }
+    // public function testStore(): voidw
+    // {
+    //  // $this->withoutExceptionHandling();
+    //     $product=Product::factory()->create();
+
+    //     $response = $this->actingAs(User::factory()->create())
+    //     ->post(route('admin.products.show',['product'=>$product->id]));
+
+    //     $response->assertOk();
+    // }
+
 
 }
