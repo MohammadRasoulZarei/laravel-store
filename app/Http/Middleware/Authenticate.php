@@ -15,6 +15,10 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
+            alert()->warning('برای ادامه لطفا ابتدا وارد شوید',"سپاس");
+
+            $url=parse_url(url()->previous());
+            session(['loginLand'=>$url['path']]);
             return route('login');
         }
     }
