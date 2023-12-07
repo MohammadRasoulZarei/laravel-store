@@ -80,7 +80,7 @@ class HomeController extends Controller
         // example:
 
 
-
+       // dd($products->first()->category->parent->name);
 
         return view('home.index', compact('sliders', 'banners', 'products'));
     }

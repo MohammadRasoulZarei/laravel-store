@@ -73,7 +73,7 @@ class ProductController extends Controller
             'delivery_amount' => 'required|integer',
             'delivery_amount_per_product' => 'nullable|integer',
         ]);
-        try {
+       try {
             DB::beginTransaction();
 
             $productImageController = new ProductImageController();
@@ -107,11 +107,11 @@ class ProductController extends Controller
             $product->tags()->attach($request->tag_ids);
 
             DB::commit();
-        } catch (\Exception $ex) {
-            DB::rollBack();
-            alert()->error('مشکل در ایجاد محصول', $ex->getMessage())->showConfirmButton('حله');
-            return redirect()->back();
-        }
+       } catch (\Exception $ex) {
+           DB::rollBack();
+           alert()->error('مشکل در ایجاد محصول', $ex->getMessage())->showConfirmButton('حله');
+           return redirect()->back();
+       }
 
         alert()->success('محصول مورد نظر ایجاد شد', 'باتشکر');
         return redirect()->route('admin.products.index');
@@ -157,6 +157,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+
+      //  dd($request->all());
         $request->validate([
             'name' => 'required',
             'brand_id' => 'required|exists:brands,id',
@@ -175,7 +177,7 @@ class ProductController extends Controller
             'delivery_amount_per_product' => 'nullable|integer',
         ]);
 
-        try {
+
             DB::beginTransaction();
 
             $product->update([
@@ -190,17 +192,13 @@ class ProductController extends Controller
             $productAttributeController = new ProductAttributeController();
             $productAttributeController->update($request->attribute_values);
 
-            $productVariationController = new ProductVariationController();
-            $productVariationController->update($request->variation_values);
+            // $productVariationController = new ProductVariationController();
+            // $productVariationController->update($request->variation_values);
 
-            $product->tags()->sync($request->tag_ids);
+            // $product->tags()->sync($request->tag_ids);
 
             DB::commit();
-        } catch (\Exception $ex) {
-            DB::rollBack();
-            alert()->error('مشکل در ویرایش محصول', $ex->getMessage())->showConfirmButton('حله');
-            return redirect()->back();
-        }
+
 
         alert()->success('محصول مورد نظر ویرایش شد', 'باتشکر');
         return redirect()->route('admin.products.index');
@@ -220,7 +218,7 @@ class ProductController extends Controller
     public function editCategory(Request $request, Product $product)
     {
         $categories = Category::where('parent_id', '!=', 0)->get();
-        
+
         return view('admin.products.edit_category', compact('product' , 'categories'));
     }
 

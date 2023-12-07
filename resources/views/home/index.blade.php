@@ -331,26 +331,26 @@
 
                                     <div class="product-details-price price-place-{{ $product->id }}">
 
-                                            @if ($product->quantity_check)
-                                                @if ($product->sale_price)
+                                        @if ($product->quantity_check)
+                                            @if ($product->sale_price)
+                                                <span class="new">
+                                                    {{ $product->sale_price->sale_price }}
+                                                    تومان
+                                                </span>
+                                                <span class="old">
+                                                    {{ $product->sale_price->price }}
+                                                    تومان
+                                                @else
                                                     <span class="new">
-                                                        {{ $product->sale_price->sale_price }}
+                                                        {{ $product->real_price->price }}
                                                         تومان
                                                     </span>
-                                                    <span class="old">
-                                                        {{ $product->sale_price->price }}
-                                                        تومان
-                                                    @else
-                                                        <span class="new">
-                                                            {{ $product->real_price->price }}
-                                                            تومان
-                                                        </span>
-                                                @endif
-                                            @else
-                                                <div class="not-in-stock">
-                                                    <p>ناموجود</p>
-                                                </div>
                                             @endif
+                                        @else
+                                            <div class="not-in-stock">
+                                                <p>ناموجود</p>
+                                            </div>
+                                        @endif
 
                                     </div>
 
@@ -371,76 +371,80 @@
                                             </ul>
                                     </div>
                                     <form action="{{ route('product.cart.add') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="productID" value="{{$product->id}}">
-                                    @if ($product->quantity_check)
-                                        <div class="pro-details-size-color text-right">
-                                            <div class="pro-details-size w-50">
-                                                <span>{{ App\Models\Attribute::find($product->variations->first()->attribute_id)->name }}</span>
-                                                <div class="pro-details-size-content">
-                                                    <select name="variation" class='form-control select-variation'
-                                                        pointer='price-place-{{ $product->id }}' name=""
-                                                        id="">
-                                                        @foreach ($product->variations()->orderBy('price')->get() as $var)
-                                                            @if ($var->quantity > 0)
-                                                                <option
-                                                                    value="{{ json_encode($var->only(['id', 'is_sale', 'quantity', 'price', 'sale_price'])) }}">
-                                                                    {{ $var->value }}
-                                                                </option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="pro-details-quality">
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box quantity-input" type="text"
-                                                    name="qtybutton" value="1"
-                                                    data-max={{ $product->variations()->where('quantity', '>', '0')->orderBy('price')->first()->quantity }} />
-                                            </div>
-
-                                            <div class="pro-details-cart">
-
-                                                <button type="submit">افزودن به سبد خرید</button>
-
-
-                                            </div>
-                                            @auth
-                                                @if ($product->isInWish())
-                                                    <div class="pro-details-wishlist">
-                                                        <a title="Add To Wishlist" class="wish-link-modal"
-                                                            product='{{ $product->id }}'><i class="fa fa-heart"
-                                                                style="color:red"></i></a>
+                                        @csrf
+                                        <input type="hidden" name="productID" value="{{ $product->id }}">
+                                        @if ($product->quantity_check)
+                                            <div class="pro-details-size-color text-right">
+                                                <div class="pro-details-size w-50">
+                                                    <span>{{ App\Models\Attribute::find($product->variations->first()->attribute_id)->name }}</span>
+                                                    <div class="pro-details-size-content">
+                                                        <select name="variation" class='form-control select-variation'
+                                                            pointer='price-place-{{ $product->id }}' name=""
+                                                            id="">
+                                                            @foreach ($product->variations()->orderBy('price')->get() as $var)
+                                                                @if ($var->quantity > 0)
+                                                                    <option
+                                                                        value="{{ json_encode($var->only(['id', 'is_sale', 'quantity', 'price', 'sale_price'])) }}">
+                                                                        {{ $var->value }}
+                                                                    </option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
                                                     </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box quantity-input" type="text"
+                                                        name="qtybutton" value="1"
+                                                        data-max={{ $product->variations()->where('quantity', '>', '0')->orderBy('price')->first()->quantity }} />
+                                                </div>
+
+                                                <div class="pro-details-cart">
+
+                                                    <button type="submit">افزودن به سبد خرید</button>
+
+
+                                                </div>
+                                                @auth
+                                                    @if ($product->isInWish())
+                                                        <div class="pro-details-wishlist">
+                                                            <a title="Add To Wishlist" class="wish-link-modal"
+                                                                product='{{ $product->id }}'><i class="fa fa-heart"
+                                                                    style="color:red"></i></a>
+                                                        </div>
+                                                    @else
+                                                        <div class="pro-details-wishlist">
+                                                            <a title="Add To Wishlist" class="wish-link"
+                                                                product='{{ $product->id }}'><i
+                                                                    class="sli sli-heart"></i></a>
+                                                        </div>
+                                                    @endif
                                                 @else
                                                     <div class="pro-details-wishlist">
-                                                        <a title="Add To Wishlist" class="wish-link"
-                                                            product='{{ $product->id }}'><i class="sli sli-heart"></i></a>
+                                                        <a title="Add To Wishlist" onclick="loginAlert()"><i
+                                                                class="sli sli-heart"></i></a>
                                                     </div>
-                                                @endif
-                                            @else
-                                                <div class="pro-details-wishlist">
-                                                    <a title="Add To Wishlist" onclick="loginAlert()"><i
-                                                            class="sli sli-heart"></i></a>
+                                                @endauth
+                                                <div class="pro-details-compare">
+                                                    <a title="Add To Compare" href="#"><i
+                                                            class="sli sli-refresh"></i></a>
                                                 </div>
-                                            @endauth
-                                            <div class="pro-details-compare">
-                                                <a title="Add To Compare" href="#"><i
-                                                        class="sli sli-refresh"></i></a>
                                             </div>
-                                        </div>
-                                    @else
-                                        <div class="not-in-stock">
-                                            <p>ناموجود</p>
-                                        </div>
-                                    @endif
-                                </form>
+                                        @else
+                                            <div class="not-in-stock">
+                                                <p>ناموجود</p>
+                                            </div>
+                                        @endif
+                                    </form>
                                     <div class="pro-details-meta">
                                         <span>دسته بندی :</span>
-                                        <ul <li><a href="#">{{ $product->category->parent->name }}</a></li>
+                                        <ul> <li>
+                                            <a
+                                                href="#">{{ $product->category->parent->name }}</a>
+                                            </li>
                                             <li><a href="#">{{ $product->category->name }}</a></li>
                                         </ul>
                                     </div>

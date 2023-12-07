@@ -72,8 +72,8 @@
                     <div class="form-group col-md-3">
                         <label for="is_active">وضعیت</label>
                         <select class="form-control" id="is_active" name="is_active">
-                            <option value="1" {{ $product->getRawOriginal('is_active') ? 'selected' : '' }}>فعال</option>
-                            <option value="0" {{ $product->getRawOriginal('is_active') ? 'selected' : '' }}>غیرفعال</option>
+                            <option value="1" {{ $product->getRawOriginal('is_active')==1 ? 'selected' : '' }}>فعال</option>
+                            <option value="0" {{ $product->getRawOriginal('is_active')==0 ? 'selected' : '' }}>غیرفعال</option>
                         </select>
                     </div>
 

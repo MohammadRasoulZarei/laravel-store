@@ -55,7 +55,7 @@
             console.log(attributes);
 
 
-            
+
             let attrsfotfilter = [];
             attributes.forEach(attribute => {
                 // $.each(selectedAttrs,function(i,element){
