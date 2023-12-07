@@ -30,13 +30,14 @@ class ProductVariationController extends Controller
         foreach($variationIds as $key => $value){
             $productVariation = ProductVariation::findOrFail($key);
             //dd($value['date_on_sale_from'], Verta::parse($value['date_on_sale_from'])->datetime());
+          //  dump($value);
             $productVariation->update([
                 'price' => $value['price'],
                 'quantity' => $value['quantity'],
                 'sku' => $value['sku'],
                 'sale_price' => $value['sale_price'],
-                'date_on_sale_from' => Verta::parse($value['date_on_sale_from'])->datetime(),
-                'date_on_sale_to' => Verta::parse($value['date_on_sale_to'])->datetime(),
+                'date_on_sale_from' => $value['date_on_sale_from']?Verta::parse($value['date_on_sale_from'])->datetime():null,
+                'date_on_sale_to' => $value['date_on_sale_to']?Verta::parse($value['date_on_sale_to'])->datetime():null,
             ]);
         }
     }

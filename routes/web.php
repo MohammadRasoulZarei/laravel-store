@@ -50,7 +50,7 @@ Route::get('/admin-panel/dashboard', [AdminController::class, 'dashboard'])->nam
 Route::get('/admin', function () {
     return redirect()->route('dashboard');
 });
-Route::prefix('admin-panel/management')->middleware(['auth', 'verified'])->name('admin.')->group(function () {
+Route::prefix('admin-panel/management')->middleware(['auth', 'verified','role:admin'])->name('admin.')->group(function () {
 
 
     Route::resource('brands', BrandController::class);

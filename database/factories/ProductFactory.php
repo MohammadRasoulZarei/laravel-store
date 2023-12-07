@@ -31,7 +31,9 @@ class ProductFactory extends Factory
             'slug'=>$this->faker->unique()->name,
             'primary_image'=>$this->faker->imageUrl,
             'description'=>$this->faker->text,
+            'is_active'=>1,
             'delivery_amount'=>Arr::random(['20000',15000,25000]),
+            'delivery_amount_per_product'=>Arr::random(['20000',15000,25000]),
         ];
     }
 }

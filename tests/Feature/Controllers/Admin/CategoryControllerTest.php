@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\Admin;
 
 
 use Tests\TestCase;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Attribute;
@@ -17,14 +18,15 @@ class CategoryControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('admin.categories.index'));
+        $user = User::factory()->has(Role::factory()->admin())->create();
+        $response = $this->actingAs($user)
+        ->get(route('admin.categories.index'));
 
         $response->assertStatus(200);
     }
     public function testCreate(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->has(Role::factory()->admin())->create();
         $response = $this->actingAs($user)
             ->get(route('admin.categories.create'));
 
@@ -34,7 +36,7 @@ class CategoryControllerTest extends TestCase
     public function testStore(): void
     {
         //   $this->withoutExceptionHandling();
-        $user = User::factory()->create();
+
         $data = Category::factory()->make()->toArray();
         $attributes = Attribute::factory()->count(rand(4, 7))->create();
         $attrIds = $attributes->pluck('id');
@@ -52,6 +54,7 @@ class CategoryControllerTest extends TestCase
         );
 
 
+        $user = User::factory()->has(Role::factory()->admin())->create();
         $response = $this->actingAs($user)
             ->post(route('admin.categories.store'), $data);
 
@@ -60,22 +63,31 @@ class CategoryControllerTest extends TestCase
     public function testShow()
     {
         $category = Category::factory()->create();
-        $user = User::factory()->create();
-        $response = $this->actingAs($user)->get(route('admin.categories.show', ['category' => $category->id]));
+        $user = User::factory()->has(Role::factory()->admin())->create();
+        $response = $this->actingAs($user)
+        ->get(route('admin.categories.show', ['category' => $category->id]));
 
         $response->assertStatus(200);
     }
     public function testEdit()
     {
         //  $this->withoutExceptionHandling();
-        $category = Category::factory()->create();
-        Attribute::factory()->count(3)->hasAttached($category, ['is_filter' => 1])->create();
-        Attribute::factory()->hasAttached($category, ['is_variation' => 1])->create();
 
-        $user = User::factory()->create();
+        // $category = Category::factory()->create();
+        // Attribute::factory()->count(3)->hasAttached($category, ['is_filter' => 1])->create();
+        // Attribute::factory()->hasAttached($category, ['is_variation' => 1])->create();
+
+        Category::factory()->hasChildren()->create();
+        $category=Category::where('parent_id','!=',0)->first();
+        Attribute::factory()->count(3)->hasAttached($category,['is_filter'=>1])->create();
+        Attribute::factory()->hasAttached($category,['is_variation'=>1])->create();
 
 
-        $response = $this->actingAs($user)->get(route('admin.categories.edit', ['category' => $category->id]));
+
+
+        $user = User::factory()->has(Role::factory()->admin())->create();
+        $response = $this->actingAs($user)
+        ->get(route('admin.categories.edit', ['category' => $category->id]));
 
         $response->assertStatus(200);
     }
@@ -83,7 +95,7 @@ class CategoryControllerTest extends TestCase
     {
           $this->withoutExceptionHandling();
 
-        $user = User::factory()->create();
+
         $data = Category::factory()->make()->toArray();
         $attributes = Attribute::factory()->count(rand(4, 7))->create();
         $attrIds = $attributes->pluck('id');
@@ -101,11 +113,12 @@ class CategoryControllerTest extends TestCase
         );
 
         $category = Category::factory()->create();
+        $user = User::factory()->has(Role::factory()->admin())->create();
         $response = $this->actingAs($user)
             ->put(route('admin.categories.update', $category->id), $data);
 
         $response->assertRedirect(route('admin.categories.index'));
-        
+
 
     }
 }
